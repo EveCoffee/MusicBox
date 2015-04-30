@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head lang="zh-CN">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-
-</body>
-</html>
+<div class="music-list container">
+  <form ng-submit="search()">
+    <div class="from-group has-feedback">
+      <input class="form-control" type="text" ng-model="search_word"/>
+      <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+    </div>
+  </form>
+  <br/>
+  <ul class="list-group">
+    <li class="list-group-item" ng-repeat="song in song_list.data">
+      <a href="">{{song.song_name}}</a>
+    </li>
+  </ul>
+</div>
