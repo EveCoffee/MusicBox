@@ -1,3 +1,4 @@
+<box></box>
 <div class="music-list container">
   <form ng-submit="search()">
     <div class="from-group has-feedback">
@@ -8,7 +9,21 @@
   <br/>
   <ul class="list-group">
     <li class="list-group-item" ng-repeat="song in song_list.data">
-      <a href="">{{song.song_name}}</a>
+      <a ng-click="play($index)" class="glyphicon glyphicon-play-circle" href=""></a>&nbsp;&nbsp;<a href="">{{song.song_name}}</a>
     </li>
   </ul>
 </div>
+
+<nav class="player-bar navbar navbar-inverse navbar-fixed-bottom" ng-controller="PlayCtrl">
+  <div class="container">
+    <p class="navbar-text">
+      <a ng-click="prev()" class="glyphicon glyphicon-backward"></a>
+      <a ng-click="play()" class="glyphicon " ng-class="{'glyphicon-play': isPlay,'glyphicon-pause': !isPlay}"></a>
+      <a ng-click="next()" class="glyphicon glyphicon-forward"></a>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      {{currentTime_min}}:{{currentTime_sec}} - {{duration}}
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      {{}}
+    </p>
+  </div>
+</nav>

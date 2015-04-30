@@ -35,3 +35,28 @@ body{
 .list-group-item{
   background-color: transparent;
 }
+
+/* 音乐播放条 */
+.player-bar{
+  height: 46px;
+  color: #999;
+  background: url("../assets/images/playbar.png") repeat-x 0 0;
+  box-sizing: border-box;
+  a{
+    color: #999;
+    &.glyphicon{
+      display: block;
+      float: left;
+      padding: 0 10px;
+      font-size: 18px;
+    }
+    &.glyphicon-play,.glyphicon-pause{
+      font-size: 22px;
+    }
+    &:hover{
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+}
