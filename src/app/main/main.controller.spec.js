@@ -3,7 +3,7 @@
 describe('controllers', function(){
   var scope;
 
-  beforeEach(module('music'));
+  beforeEach(module('musicBox'));
 
   beforeEach(inject(function($rootScope) {
     scope = $rootScope.$new();

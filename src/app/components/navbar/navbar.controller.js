@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('music')
+angular.module('musicBox')
   .controller('NavbarCtrl', function ($scope) {
     $scope.date = new Date();
   });
