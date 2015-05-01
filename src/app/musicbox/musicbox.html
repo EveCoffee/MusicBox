@@ -2,28 +2,51 @@
 <div class="music-list container">
   <form ng-submit="search()">
     <div class="from-group has-feedback">
-      <input class="form-control" type="text" ng-model="search_word"/>
+      <input id="search_word" class="form-control" type="text" ng-model="search_word"/>
       <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
     </div>
   </form>
-  <br/>
   <ul class="list-group">
-    <li class="list-group-item" ng-repeat="song in song_list.data">
-      <a ng-click="play($index)" class="glyphicon glyphicon-play-circle" href=""></a>&nbsp;&nbsp;<a href="">{{song.song_name}}</a>
+    <li class="list-group-item" ng-repeat="i in song_list.data">
+      <a ng-click="play($index)" class="glyphicon glyphicon-play-circle" href=""></a>&nbsp;&nbsp;
+      <a href="">
+        {{i.song_name}}
+      </a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="text-muted">
+        {{i.singer_name}}
+      </span>
+      <span class="badge">{{i.pick_count}}</span>
     </li>
   </ul>
 </div>
 
+<!--播放栏-->
 <nav class="player-bar navbar navbar-inverse navbar-fixed-bottom" ng-controller="PlayCtrl">
-  <div class="container">
+  <div class="container" style="position: relative">
+    <!--播放控制按钮-->
     <p class="navbar-text">
       <a ng-click="prev()" class="glyphicon glyphicon-backward"></a>
       <a ng-click="play()" class="glyphicon " ng-class="{'glyphicon-play': isPlay,'glyphicon-pause': !isPlay}"></a>
       <a ng-click="next()" class="glyphicon glyphicon-forward"></a>
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      {{currentTime_min}}:{{currentTime_sec}} - {{duration}}
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      {{}}
     </p>
+    <!--播放进度条-->
+    <div class="progress-box clearfix" style="">
+      <!--歌曲名字和歌手名字-->
+      <a class="song-name" href="">{{song.song_name}}</a> -- <a class="singer-name" href="">{{song.singer_name}}</a>
+      <div class="progress hidden-xs">
+        <div class="progress-bar" style="width: {{currentTime/duration*100}}%;">
+        </div>
+      </div>
+    </div>
+    <!--导航栏 播放时间和总时间-->
+    <p class="navbar-text hidden-xs">
+      {{currentTime_min}}:{{currentTime_sec}} - {{duration_min}}:{{duration_sec}}
+      &nbsp;&nbsp;&nbsp;&nbsp;
+    </p>
+    <!--导航栏右边  列表-->
+    <div class="player-list" >
+      <a class="glyphicon glyphicon-volume-up"></a>
+      <a class="glyphicon glyphicon-list"></a>
+    </div>
   </div>
 </nav>

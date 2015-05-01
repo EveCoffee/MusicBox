@@ -26,22 +26,29 @@ html,body{
 body{
   background-image: url('../assets/images/bg.jpg');
   background-size: 100% 100%;
+  font-family: "Microsoft Yahei",serif;
 }
 
 .music-list{
-  margin-top: 150px;
+  margin-top: 100px;
 }
 
 .list-group-item{
-  background-color: transparent;
+  //background-color: transparent;
 }
 
 /* 音乐播放条 */
 .player-bar{
-  height: 46px;
+  height: 49px;
   color: #999;
   background: url("../assets/images/playbar.png") repeat-x 0 0;
   box-sizing: border-box;
+
+  .container{
+    position: relative;
+    height: 52px;
+    overflow: hidden;
+  }
   a{
     color: #999;
     &.glyphicon{
@@ -59,4 +66,47 @@ body{
       cursor: pointer;
     }
   }
+}
+
+/*播放进度条*/
+.progress-box{
+  float: left;
+  margin-left:15px;
+  width: 455px;
+  padding-top: 5px;
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 24px;
+    overflow: hidden;
+    padding-top: 0;
+  }
+
+  .song-name{
+    font-size: 14px;
+    font-weight: bold;
+  }
+  .singer-name{
+    font-size: 12px;
+  }
+  .progress{
+    position: absolute;
+    top: 70%;
+    transform: translateY(-50%);
+    background: url("../assets/images/statbar.png") repeat-x 0 -30px;
+    width: 455px;
+    height: 9px;
+
+    .progress-bar{
+      background: url("../assets/images/statbar.png") repeat-x 0 -66px;
+    }
+  }
+
+}
+
+/*音量控制和播放列表*/
+.player-list{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
