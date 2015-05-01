@@ -35,11 +35,17 @@ music.controller('MusicCtrl', function($scope,$rootScope,$http,audio){
 /*播放控制*/
 music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
   /**
-   * @type {boolean} :  是否播放
+   * volume_value :   音量
+   * volume_show :  是否显示音量滑块
+   * volume_status : 是否静音
+   * isPlay {boolean} :  是否播放
    * currentTime  当前播放时间
-   * $scope.currentTime_min:$scope.currentTime_min  当前播放分钟和秒数
+   * currentTime_min : currentTime_sec  当前播放分钟和秒数
+   * range_value  :   滑块的百分比
    */
-  $scope.isPlay = false;
+  $scope.volume_value = 1.0;
+  $scope.volume_status = true;
+  $scope.volume_show = false;
   $scope.isPlay = audio.paused;
   $scope.currentTime = 0;
   $scope.currentTime_min = 0;
@@ -49,12 +55,12 @@ music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
   $scope.play = function(){
     if(audio.paused){
       audio.play();
-    }
-    else{
+    }else{
       audio.pause();
     }
     $scope.isPlay = audio.paused;
   };
+
   /* 歌曲开始播放 */
   audio.onplay = function(){
 
@@ -79,13 +85,22 @@ music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
     $scope.duration_min = parseInt(duration/60);
     $scope.duration_sec = parseInt(duration%60);
     $scope.isPlay = audio.paused;
-    console.log(($scope.currentTime/$scope.duration*100));
+    if(parseInt($scope.currentTime)%2==0){
+      $scope.range_value = ($scope.currentTime/$scope.duration*100);
+    }
     $scope.$apply();
   });
 
-  //audio.addEventListener('timeupdate',function(){
-  //  //console.log(audio.currentTime);
-  //  $scope.currentTime = audio.currentTime;
-  //  console.log($scope.currentTime);
-  //});
+  /*进度条改变事件*/
+  $scope.range_change = function(){
+    //console.log(parseInt($scope.duration*$scope.range_value/100));
+    audio.currentTime = parseInt($scope.duration*$scope.range_value/100);
+  };
+  $scope.volume_change = function(){
+    $scope.volume_status = Boolean(parseInt($scope.volume_value));
+    audio.volume = $scope.volume_value/10;
+  }
+  $scope.volume_click = function(){
+    $scope.volume_show = !$scope.volume_show;
+  }
 });

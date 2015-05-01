@@ -47,7 +47,7 @@ body{
   .container{
     position: relative;
     height: 52px;
-    overflow: hidden;
+    //overflow: hidden;
   }
   a{
     color: #999;
@@ -88,20 +88,64 @@ body{
   .singer-name{
     font-size: 12px;
   }
-  .progress{
-    position: absolute;
-    top: 70%;
-    transform: translateY(-50%);
-    background: url("../assets/images/statbar.png") repeat-x 0 -30px;
-    width: 455px;
-    height: 9px;
+  @at-root {
+    #player-range{
+      -webkit-appearance: none;
+      overflow:hidden;     /* 限定范围 */
+      height:20px;
+      outline : none;      /* 避免点选会有蓝线或虚线 */
+      background:none;
+      cursor: pointer;
+      &::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        position: relative;    /* 设为相对位置，为了前后区块的绝对位置而设定 */
+        width:10px;
+        height:10px;
+        background:#f22;
+        border-radius:50%;
+        transition:.2s;        /* 点选放大时候的渐变时间 */
+      }
+      &::-webkit-slider-thumb:before,
+      &::-webkit-slider-thumb:after
+      {
+        position: absolute;
+        top: 3px;
+        width: 2000px;          /* 长度很长没关系，因为刚刚有用 overflow:hidden 了 */
+        height: 4px;
+        content:"";
+        pointer-events: none;   /* 让滑鼠可以点击穿透伪元素，不然会点不到下面 */
+        transition:.2s;
+      }
+      &::-webkit-slider-thumb:before{
+        /*经过的颜色*/
+        left: -1997px;
+        background: #f22;
+      }
+      &::-webkit-slider-thumb:after {
+        left: 10px;
+        /*未经过的颜色*/
+        background: #edc;
+      }
 
-    .progress-bar{
-      background: url("../assets/images/statbar.png") repeat-x 0 -66px;
+      &:active::-webkit-slider-thumb:before,
+      &:active::-webkit-slider-thumb:after
+      {
+        top: 6px;
+      }
+
+      &:active::-webkit-slider-thumb{
+        width:16px;
+        height:16px;
+      }
+
+      &:active::-webkit-slider-thumb:after {
+        left: 16px;
+      }
     }
   }
 
 }
+
 
 /*音量控制和播放列表*/
 .player-list{
@@ -109,4 +153,15 @@ body{
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  /*音量控制条*/
+  input[id='volume-range']{
+    @extend #player-range;
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    width: 100px;
+    transform: rotate(-90deg);
+    transform-origin: 0;
+
+  }
 }
