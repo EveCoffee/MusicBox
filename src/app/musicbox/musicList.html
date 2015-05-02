@@ -1,0 +1,22 @@
+<box></box>
+<div class="music-list">
+  <div class="page-header">
+    <h3>我的播放列表 <small>Player List</small></h3>
+  </div>
+  <ul class="list-group" style="height: 410px; overflow-y: scroll">
+
+    <li class="list-group-item clearfix" ng-repeat="song in song_list">
+      <div class="player-status">
+        <img src="../assets/images/ic_play_arrow_24px.svg" alt=""/>
+      </div>
+      <div class="song-name">{{song.song_name}}</div>
+      <div class="singer-name">{{song.singer_name}}</div>
+
+      <div class="favorite pull-right">
+        <img src="../../bower_components/material-design-icons/action/svg/production/ic_favorite_outline_24px.svg" alt=""/>
+      </div>
+    </li>
+
+  </ul>
+</div>
+
