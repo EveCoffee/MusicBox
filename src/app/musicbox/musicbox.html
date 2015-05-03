@@ -20,38 +20,3 @@
   </ul>
 </div>
 
-<!--播放栏-->
-<nav class="player-bar navbar navbar-inverse navbar-fixed-bottom" ng-controller="PlayCtrl">
-  <div class="container" style="position: relative">
-    <!--播放控制按钮-->
-    <p class="navbar-text">
-      <a ng-click="prev()" class="glyphicon glyphicon-backward"></a>
-      <a ng-click="play()" class="glyphicon " ng-class="{'glyphicon-play': isPlay,'glyphicon-pause': !isPlay}"></a>
-      <a ng-click="next()" class="glyphicon glyphicon-forward"></a>
-    </p>
-    <!--播放进度条-->
-    <div class="progress-box clearfix" style="">
-      <!--歌曲名字和歌手名字-->
-      <a class="song-name" href="">{{song.song_name}}</a> -- <a class="singer-name" href="">{{song.singer_name}}</a>
-      <!--<div class="progress hidden-xs">
-        <div class="progress-bar" style="width: {{currentTime/duration*100}}%;">
-        </div>
-      </div>
-      -->
-      <input id="player-range" ng-model="range_value" ng-change="range_change()" type="range"  min="0" max="100" step="1" value="10" />
-    </div>
-    <!--导航栏 播放时间和总时间-->
-    <p class="navbar-text hidden-xs">
-      {{currentTime_min}}:{{currentTime_sec}} - {{duration_min}}:{{duration_sec}}
-      &nbsp;&nbsp;&nbsp;&nbsp;
-    </p>
-    <!--导航栏右边  列表-->
-    <div class="player-list" >
-      <!--音量控制-->
-      <a class="volume glyphicon" ng-click="volume_click()" ng-class="{'glyphicon-volume-up': volume_status,'glyphicon-volume-off': !volume_status}">
-        <input ng-model="volume_value" ng-change="volume_change()" ng-show="volume_show" id="volume-range" type="range" min="0" max="10" step="1"/>
-      </a>
-      <a class="glyphicon glyphicon-list"></a>
-    </div>
-  </div>
-</nav>

@@ -167,15 +167,19 @@ body{
 
 /*音乐列表*/
 .music-list{
+  .list-group-item{
+    cursor: pointer;
+  }
+  /*播放按钮*/
   .player-status{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     float: left;
     width: 40px;
-    img{
-      width: 30px;
-    }
+    font-size: 20px;
+
+    cursor: pointer;
   }
   .singer-name{
     margin-left: 40px;
@@ -184,10 +188,15 @@ body{
     @extend .singer-name;
     font-size: 16px;
   }
+  /*收藏按钮*/
   .favorite{
     position: absolute;
     top: 50%;
     right: 15px;
     transform: translateY(-50%);
+    font-size: 20px;
+    &.glyphicon-heart-empty{
+      color: #999;
+    }
   }
 }

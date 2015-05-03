@@ -1,20 +1,21 @@
-<box></box>
+
 <div class="music-list">
   <div class="page-header">
-    <h3>我的播放列表 <small>Player List</small></h3>
+    <h3>播放列表 <small>Player List</small>
+      <a class="pull-right" ui-sref="music">搜索</a> </h3>
   </div>
   <ul class="list-group" style="height: 410px; overflow-y: scroll">
 
-    <li class="list-group-item clearfix" ng-repeat="song in song_list">
-      <div class="player-status">
-        <img src="../assets/images/ic_play_arrow_24px.svg" alt=""/>
-      </div>
+    <li class="list-group-item clearfix" ng-repeat="song in song_list" ng-click="play($index)">
+      <span class="player-status glyphicon" ng-class="{'glyphicon-play': !isPlay,'glyphicon-pause': isPlay}" ng-show="song_now==$index">
+        <!--<img src="../assets/images/ic_play_arrow_24px.svg" alt=""/>-->
+      </span>
       <div class="song-name">{{song.song_name}}</div>
       <div class="singer-name">{{song.singer_name}}</div>
 
-      <div class="favorite pull-right">
-        <img src="../../bower_components/material-design-icons/action/svg/production/ic_favorite_outline_24px.svg" alt=""/>
-      </div>
+      <span class="favorite glyphicon glyphicon-heart-empty pull-right">
+        <!--<img src="../../bower_components/material-design-icons/action/svg/production/ic_favorite_outline_24px.svg" alt=""/>-->
+      </span>
     </li>
 
   </ul>

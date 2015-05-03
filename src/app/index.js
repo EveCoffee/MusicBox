@@ -10,13 +10,14 @@ angular.module('musicBox', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
       }).state('music', {
         url: '/music',
         templateUrl: 'app/musicBox/musicBox.html',
-        controller: 'MusicCtrl'
+        controller: "MusicCtrl"
       }).state('music-list', {
         url: '/music-list',
         templateUrl: 'app/musicBox/musicList.html',
         controller: 'ListCtrl'
       });
 
-    $urlRouterProvider.otherwise('/music-list');
+    $urlRouterProvider.otherwise('music-list');
   })
 ;
+
