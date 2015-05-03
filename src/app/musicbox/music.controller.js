@@ -139,7 +139,6 @@ music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
     },
   ];
   $rootScope.song_now = 0;
-  console.log('fuck11');
   $rootScope.song = $rootScope.song_list[$rootScope.song_now];
   audio.src = $rootScope.song.url_list[0].url;
   /*播放切换*/
