@@ -17,7 +17,7 @@ angular.module('musicBox', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', '
         controller: 'ListCtrl'
       }).state('music-lrc', {
         url: '/music-lrc',
-        templateUrl: 'app/musicBox/musicLrc.html',
+        template: '<lrc></lrc>',
         controller: 'LrcCtrl'
       });
 

@@ -275,9 +275,8 @@ music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
     });
   };
   var song_id = 307363;
-  $rootScope.parseUrl(song_id);
+  //$rootScope.parseUrl(song_id);
   //parseUrl.lrc();
-
 });
 
 /*播放列表*/
@@ -292,11 +291,12 @@ music.controller('ListCtrl', function($scope, $rootScope, $http, audio){
 });
 
 /*歌词列表*/
-music.controller('LrcCtrl', function($scope, $rootScope, $http, audio){
+music.controller('LrcCtrl', function($scope, $rootScope, $http, audio, lrc){
+  console.log('我好累，你后面执行好吗');
   $scope.currentTime = 0;
   $(audio).on('timeupdate', function(){
     $scope.currentTime = audio.currentTime;
-    console.log(audio.currentTime.toFixed(2));
+    ($rootScope.playLrc(audio.currentTime));
   });
 
 });
