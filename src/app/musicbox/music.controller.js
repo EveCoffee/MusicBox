@@ -38,7 +38,7 @@ music.controller('MusicCtrl', function($scope, $rootScope, $http, audio){
 });
 
 /*播放控制*/
-music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
+music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
   /**
    * volume_value :   音量
    * volume_show :  是否显示音量滑块
@@ -136,7 +136,7 @@ music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
           url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
         }
       ]
-    },
+    }
   ];
   $rootScope.song_now = 0;
   $rootScope.song = $rootScope.song_list[$rootScope.song_now];
@@ -179,7 +179,7 @@ music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
   };
   /* 歌曲开始播放 */
   audio.onplay = function(){
-
+    $rootScope.isPlay = $scope.isPlay = audio.paused;
   };
   /* 歌曲暂停播放 */
   audio.onpause = function(){
@@ -226,12 +226,62 @@ music.controller('PlayCtrl',function($scope, $rootScope, $http, audio){
   /*音量切换*/
   $scope.volume_click = function(){
     $scope.volume_show = !$scope.volume_show;
-  }
+  };
+
+  /*crc32效验*/
+  $scope.crc32 = function(e) {
+    var t, r, n, a = new Array(256);
+    for (t = 0; 256 > t; t++) {
+      for (n = t, r = 0; 8 > r; r++) n = 1 & n ? n >> 1 & 2147483647 ^ 3988292384 : n >> 1 & 2147483647;
+      a[t] = n
+    }
+    for ("string" != typeof e && (e = "" + e), n = 4294967295, t = 0; t < e.length; t++) n = n >> 8 & 16777215 ^ a[255 & n ^ e.charCodeAt(t)];
+    return n ^= 4294967295,(n >> 3).toString(16)
+  };
+
+  /*通过歌曲id， 解析歌曲、歌词、歌手图片*/
+  $rootScope.parseUrl = function(song_id, type){
+    var code, song_url, lrc_url, pic_url, singer_name, song_name;
+    code = $scope.crc32(song_id);
+    song_url = "http://ting.hotchanson.com/website/ting?song_id="+song_id+"&code="+code+"&from=search&callback=JSON_CALLBACK";
+    song_name = "";
+    singer_name = "";
+
+    $http.jsonp(song_url).success(function(response){
+      song_name = response.data[0].song_name;
+      singer_name = response.data[0].singer_name;
+      lrc_url = "http://lp.music.ttpod.com/lrc/down?lrcid=&title="+song_name+"&song_id="+song_id+"&code="+$scope.crc32(song_id)+"&callback=JSON_CALLBACK";
+      pic_url = "http://lp.music.ttpod.com/pic/down?artist="+singer_name+"&rand=&code="+$scope.crc32($rootScope.singer_name)+"&callback=JSON_CALLBACK";
+      if(type){
+        switch(type){
+          case 'lrc':
+            $http.jsonp(lrc_url).success(function(response){
+              //console.log(response);
+              return response;
+            });
+            break;
+          case 'pic':
+            $http.jsonp(pic_url).success(function(response){
+              //console.log(response);
+              return response;
+            });
+            break;
+        }
+      }else{
+        $rootScope.song_list.push(response.data[0]);
+        $rootScope.play_latest();
+        return response;
+      }
+    });
+  };
+  var song_id = 307363;
+  $rootScope.parseUrl(song_id);
+  //parseUrl.lrc();
+
 });
 
 /*播放列表*/
-
-music.controller('ListCtrl',function($scope, $rootScope, $http, audio){
+music.controller('ListCtrl', function($scope, $rootScope, $http, audio){
 
   $scope.play = function(index){
     var song = $rootScope.song = $rootScope.song_list[index];
@@ -239,4 +289,14 @@ music.controller('ListCtrl',function($scope, $rootScope, $http, audio){
     audio.play();
     $rootScope.song_now = index;
   }
+});
+
+/*歌词列表*/
+music.controller('LrcCtrl', function($scope, $rootScope, $http, audio){
+  $scope.currentTime = 0;
+  $(audio).on('timeupdate', function(){
+    $scope.currentTime = audio.currentTime;
+    console.log(audio.currentTime.toFixed(2));
+  });
+
 });

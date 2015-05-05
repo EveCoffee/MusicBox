@@ -200,3 +200,22 @@ body{
     }
   }
 }
+
+
+/*歌词*/
+
+.Lrc{
+  background-color: rgba(0,0,0,0.5);
+  color: #444;
+  padding: 20px;
+
+  &>ul{
+
+    &>li{
+
+      &.active{
+        color: #fff;
+      }
+    }
+  }
+}
