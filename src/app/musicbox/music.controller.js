@@ -38,7 +38,7 @@ music.controller('MusicCtrl', function($scope, $rootScope, $http, audio){
 });
 
 /*播放控制*/
-music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
+music.controller('PlayCtrl', function($scope, $rootScope, $http, audio, Lrc){
   /**
    * volume_value :   音量
    * volume_show :  是否显示音量滑块
@@ -49,6 +49,7 @@ music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
    * range_value  :   滑块的百分比
    * song_list  :   全局歌曲列表
    * song_now :  当前播放的位置，用于确定播放按钮的显示
+   * lrc_index:  歌词的高亮行
    */
   $scope.range_value = 0;
   $scope.volume_value = 10;
@@ -62,120 +63,122 @@ music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
   $scope.duration_sec = 0;
   $rootScope.song_list = [
     {
-      song_name: "明天你好",
-      singer_name: "牛奶咖啡",
-      code: "",
-      url_list: [
-        {
-          bitrate: 32,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
-        },
-        {
-          bitrate: 128,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
-        },
-        {
-          bitrate: 320,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
-        }
-      ]
-    },
-    {
       song_name: "说了再见",
       singer_name: "周杰伦",
-      code: "",
+      song_id: "545150",
       url_list: [
         {
-          bitrate: 32,
-          url: "http://a.ali.dongting.com/895a503cd74a6e61/1431014768/m4a_32_5/ff/ce/ff9c141c7ab496d091a7c01472dc15ce.m4a?s=t"
+          "duration": "02:35",
+          "format": "m4a",
+          "bitrate": 32,
+          "type_description": "压缩品质",
+          "url": "http://a.ali.dongting.com/a14ee5fbe17a789c/1431353941/m4a_32_8/87/80/87f6958a6a59fe63ff73b70652441f80.m4a?s=t",
+          "size": "0.61M",
+          "type": 1
         },
         {
-          bitrate: 128,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
-        },
-        {
-          bitrate: 320,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
+          "duration": "02:35",
+          "format": "mp3",
+          "bitrate": 128,
+          "type_description": "标准品质",
+          "url": "http://a.ali.dongting.com/a14ee5fbe17a789c/1431353941/mp3_128_8/87/80/87f6958a6a59fe63ff73b70652441f80.mp3?s=t",
+          "size": "2.37M",
+          "type": 2
         }
       ]
     },
     {
       song_name: "OH",
       singer_name: "少女时代",
-      code: "",
-      url_list: [
+      song_id: "522929",
+      "url_list": [
         {
-          bitrate: 32,
-          url: "http://nmo.ouj.yymommy.com/132225da8135bb68/1431014799/m4a_32_5/c1/c6/c102bbfcdcf918b2de792fcf39ab52c6.m4a?s=t"
+          "duration": "03:08",
+          "format": "m4a",
+          "bitrate": 32,
+          "type_description": "压缩品质",
+          "url": "http://a.ali.dongting.com/68d22828502bedb5/1431353881/m4a_32_5/c1/c6/c102bbfcdcf918b2de792fcf39ab52c6.m4a?s=t",
+          "size": "0.74M",
+          "type": 1
         },
         {
-          bitrate: 128,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
-        },
-        {
-          bitrate: 320,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
+          "duration": "03:08",
+          "format": "mp3",
+          "bitrate": 128,
+          "type_description": "标准品质",
+          "url": "http://a.ali.dongting.com/68d22828502bedb5/1431353881/mp3_128_5/c1/c6/c102bbfcdcf918b2de792fcf39ab52c6.mp3?s=t",
+          "size": "2.88M",
+          "type": 2
         }
       ]
     },
     {
       song_name: "超跑女神",
       singer_name: "周杰伦",
-      code: "",
+      song_id: "873444",
       url_list: [
         {
-          bitrate: 32,
-          url: "http://a.ali.dongting.com/d95338b2ec37f9f5/1431014830/m4a_32_8/87/80/87f6958a6a59fe63ff73b70652441f80.m4a?s=t"
+          "duration": "02:35",
+          "format": "m4a",
+          "bitrate": 32,
+          "type_description": "压缩品质",
+          "url": "http://a.ali.dongting.com/a14ee5fbe17a789c/1431353941/m4a_32_8/87/80/87f6958a6a59fe63ff73b70652441f80.m4a?s=t",
+          "size": "0.61M",
+          "type": 1
         },
         {
-          bitrate: 128,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
-        },
-        {
-          bitrate: 320,
-          url: "http://nie.dfe.yymommy.com/120b12a903058cc3/1431014386/m4a_32_71/7b/25/7b1e92af091ea21b747b3309412f4925.m4a?s=t"
+          "duration": "02:35",
+          "format": "mp3",
+          "bitrate": 128,
+          "type_description": "标准品质",
+          "url": "http://a.ali.dongting.com/a14ee5fbe17a789c/1431353941/mp3_128_8/87/80/87f6958a6a59fe63ff73b70652441f80.mp3?s=t",
+          "size": "2.37M",
+          "type": 2
         }
       ]
     }
   ];
   $rootScope.song_now = 0;
   $rootScope.song = $rootScope.song_list[$rootScope.song_now];
+  $rootScope.lrcIndex= 1;
   audio.src = $rootScope.song.url_list[0].url;
-  /*播放切换*/
-  $scope.play = function(){
-    if(audio.paused){
-      audio.play();
+
+  /*播放歌曲 如果没有参数就是点击的播放按钮，否则就是上一曲下一曲切换播放*/
+  $scope.play = function(song_now){
+    if(!song_now){
+      if(audio.paused){
+        audio.play();
+      }else{
+        audio.pause();
+      }
+      $scope.isPlay = audio.paused;
     }else{
-      audio.pause();
+      if($rootScope.song_now == $rootScope.song_list.length){
+        $rootScope.song_now = 0;
+      }else if($rootScope.song_now<0){
+        $rootScope.song_now = $rootScope.song_list.length-1;
+      }
+      $rootScope.song = $rootScope.song_list[$rootScope.song_now];
+      audio.src = $rootScope.song.url_list[0].url;
+      $rootScope.parseSongById($rootScope.song_list[$rootScope.song_now].song_id, 'lrc');
+      audio.play();
     }
-    $scope.isPlay = audio.paused;
-  };
-  /*上一曲*/
-  $scope.next = function(){
-    $rootScope.song_now++;
-    if($rootScope.song_now == $rootScope.song_list.length){
-      $rootScope.song_now = 0;
-    }
-    $rootScope.song = $rootScope.song_list[$rootScope.song_now];
-    audio.src = $rootScope.song.url_list[0].url;
-    audio.play();
+
   };
   /*下一曲*/
+  $scope.next = function(){
+    $rootScope.song_now++;
+    $scope.play($rootScope.song_now);
+  };
+  /*上一曲*/
   $scope.prev = function(){
     $rootScope.song_now--;
-    if($rootScope.song_now<0){
-      $rootScope.song_now = $rootScope.song_list.length-1;
-    }
-    $rootScope.song = $rootScope.song_list[$rootScope.song_now];
-    audio.src = $rootScope.song.url_list[0].url;
-    audio.play();
+    $scope.play($rootScope.song_now);
   };
 
   $rootScope.play_latest = function(){
     $rootScope.song_now = $rootScope.song_list.length- 1;
-    $rootScope.song = $rootScope.song_list[$rootScope.song_now];
-    audio.src = $rootScope.song.url_list[0].url;
-    audio.play();
+    $scope.play($rootScope.song_now);
   };
   /* 歌曲开始播放 */
   audio.onplay = function(){
@@ -205,6 +208,10 @@ music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
       $scope.range_value = ($scope.currentTime/$scope.duration*100);
     }
     $scope.$apply();
+
+    if($rootScope.LrcList){
+      $rootScope.lrcIndex = Lrc.parseLrc($rootScope.LrcList, audio.currentTime) - 1;
+    }
   });
 
   /*歌曲播放完毕*/
@@ -240,7 +247,7 @@ music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
   };
 
   /*通过歌曲id， 解析歌曲、歌词、歌手图片*/
-  $rootScope.parseUrl = function(song_id, objectType){
+  $rootScope.parseSongById = function(song_id, objectType){
     var code, song_url, lrc_url, pic_url, singer_name, song_name;
     code = $scope.crc32(song_id);
     song_url = "http://ting.hotchanson.com/website/ting?song_id="+song_id+"&code="+code+"&from=search&callback=JSON_CALLBACK";
@@ -251,32 +258,40 @@ music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
       singer_name = response.data[0].singer_name;
       lrc_url = "http://lp.music.ttpod.com/lrc/down?artist="+singer_name+"&lrcid=&title="+song_name+"&song_id="+song_id+"&code="+$scope.crc32(song_id)+"&callback=JSON_CALLBACK";
       pic_url = "http://lp.music.ttpod.com/pic/down?artist="+singer_name+"&rand=&code="+$scope.crc32($rootScope.singer_name)+"&callback=JSON_CALLBACK";
-      if(objectType){
-        switch(objectType){
+      if (!objectType) {
+        $rootScope.song_list.push(response.data[0]);
+        $rootScope.play_latest();
+        return response;
+      } else {
+        switch (objectType) {
           case 'lrc':
-            $http.jsonp(lrc_url).success(function(response){
-              var a = $rootScope.parseLrcInit(response.data.lrc);
-              $rootScope.LrcList = a;
+            $http.jsonp(lrc_url).success(function (response) {
+              $rootScope.LrcList = Lrc.parseLrcInit(response.data.lrc);
+              console.log(response);
               return response;
             });
             break;
           case 'pic':
-            $http.jsonp(pic_url).success(function(response){
+            $http.jsonp(pic_url).success(function (response) {
               //console.log(response);
               return response;
             });
             break;
         }
-      }else{
-        $rootScope.song_list.push(response.data[0]);
-        $rootScope.play_latest();
-        return response;
       }
     });
   };
-  var song_id = 307363;
-  //$rootScope.parseUrl(song_id);
-  //parseUrl.lrc();
+
+  var song_id = 522929;
+  $rootScope.parseSongById(song_id);
+  $rootScope.parseSongById(song_id, 'lrc');
+
+  $(audio).on('timeupdate', function(){
+    //console.log($rootScope.LrcList);
+    //$scope.currentTime = audio.currentTime;
+
+
+  });
 });
 
 /*播放列表*/
@@ -291,64 +306,8 @@ music.controller('ListCtrl', function($scope, $rootScope, $http, audio){
 });
 
 /*歌词列表*/
-music.controller('LrcCtrl', function($scope, $rootScope, $http, audio, lrc){
-  var song_id = 28850467;
-  $scope.currentTime = 0;
-  $rootScope.parseUrl(song_id);
-  var list =  $rootScope.parseUrl(song_id, 'lrc');
-  $rootScope.lrcIndex= 1;
-  var element;
-  var timeList = [];
-  var contentList = [];
+music.controller('LrcCtrl', function($scope, $rootScope, $http, audio, Lrc){
 
-  var parse = function(lrc){
-    for(var i = 0; i < lrc.split('\n').length; i++){
-      var temp = lrc.split('\n')[i].match(/\[\d{2}:\d{2}.\d{2,3}]/g);
-      if(temp){
-        var m,s;
-        t = temp[0].replace('[','').replace(']',"").split(':');
-        m=t[0];
-        s=t[1];
-        if(s.split('.')[1].length!=3){
-          var time = parseInt(m)*60 + parseFloat(s);
-          var content = lrc.split('\n')[i].replace(temp,'');
-          //格式化歌词
-          //content = '<li>' + content + '</li>';
-          timeList.push(time);
-          contentList.push(content);
-        }
-      }
-    }
-    return {
-      'timeList': timeList,
-      'contentList': contentList
-    }
-  };
-  $rootScope.parseLrcInit = function(lrc){
-    timeList = [];
-    contentList = [];
-    parse(lrc);
-    return {
-      'timeList': timeList,
-      'contentList': contentList
-    };
-  };
-  $rootScope.parseLrc = function(lrc,time_now){
-    for(i in lrc.timeList){
-      var lrc_time = lrc.timeList[i];
-      if(lrc_time>time_now){
-        break;
-      }
-    }
-    return i;
-  };
-  $(audio).on('timeupdate', function(){
-    //console.log($rootScope.LrcList);
-    $scope.currentTime = audio.currentTime;
-    var index = $rootScope.parseLrc($rootScope.LrcList, $scope.currentTime);
-    $rootScope.lrcIndex = index -1;
-
-  });
 
 
 });
