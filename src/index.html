@@ -56,9 +56,11 @@
         <!--导航栏右边  列表-->
         <div class="player-list" >
           <!--音量控制-->
+          <a class="glyphicon glyphicon-text-size" ui-sref="music-lrc"></a>
           <a class="volume glyphicon" ng-click="volume_click()" ng-class="{'glyphicon-volume-up': volume_status,'glyphicon-volume-off': !volume_status}">
             <input ng-model="volume_value" ng-change="volume_change()" ng-show="volume_show" id="volume-range" type="range" min="0" max="10" step="1"/>
           </a>
+
           <a class="glyphicon glyphicon-list" ui-sref="music-list"></a>
         </div>
       </div>

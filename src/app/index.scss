@@ -206,11 +206,11 @@ body{
 
 .Lrc{
   background-color: rgba(0,0,0,0.5);
-  color: #444;
+  color: #999;
   padding: 20px;
-
+  text-align: center;
   &>ul{
-
+    text-align: center;
     &>li{
       list-style: none;
       &.active{

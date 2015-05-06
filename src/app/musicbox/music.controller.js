@@ -240,23 +240,23 @@ music.controller('PlayCtrl', function($scope, $rootScope, $http, audio){
   };
 
   /*通过歌曲id， 解析歌曲、歌词、歌手图片*/
-  $rootScope.parseUrl = function(song_id, type){
+  $rootScope.parseUrl = function(song_id, objectType){
     var code, song_url, lrc_url, pic_url, singer_name, song_name;
     code = $scope.crc32(song_id);
     song_url = "http://ting.hotchanson.com/website/ting?song_id="+song_id+"&code="+code+"&from=search&callback=JSON_CALLBACK";
     song_name = "";
     singer_name = "";
-
     $http.jsonp(song_url).success(function(response){
       song_name = response.data[0].song_name;
       singer_name = response.data[0].singer_name;
-      lrc_url = "http://lp.music.ttpod.com/lrc/down?lrcid=&title="+song_name+"&song_id="+song_id+"&code="+$scope.crc32(song_id)+"&callback=JSON_CALLBACK";
+      lrc_url = "http://lp.music.ttpod.com/lrc/down?artist="+singer_name+"&lrcid=&title="+song_name+"&song_id="+song_id+"&code="+$scope.crc32(song_id)+"&callback=JSON_CALLBACK";
       pic_url = "http://lp.music.ttpod.com/pic/down?artist="+singer_name+"&rand=&code="+$scope.crc32($rootScope.singer_name)+"&callback=JSON_CALLBACK";
-      if(type){
-        switch(type){
+      if(objectType){
+        switch(objectType){
           case 'lrc':
             $http.jsonp(lrc_url).success(function(response){
-              //console.log(response);
+              var a = $rootScope.parseLrcInit(response.data.lrc);
+              $rootScope.LrcList = a;
               return response;
             });
             break;
@@ -292,11 +292,63 @@ music.controller('ListCtrl', function($scope, $rootScope, $http, audio){
 
 /*歌词列表*/
 music.controller('LrcCtrl', function($scope, $rootScope, $http, audio, lrc){
-  console.log('我好累，你后面执行好吗');
+  var song_id = 28850467;
   $scope.currentTime = 0;
+  $rootScope.parseUrl(song_id);
+  var list =  $rootScope.parseUrl(song_id, 'lrc');
+  $rootScope.lrcIndex= 1;
+  var element;
+  var timeList = [];
+  var contentList = [];
+
+  var parse = function(lrc){
+    for(var i = 0; i < lrc.split('\n').length; i++){
+      var temp = lrc.split('\n')[i].match(/\[\d{2}:\d{2}.\d{2,3}]/g);
+      if(temp){
+        var m,s;
+        t = temp[0].replace('[','').replace(']',"").split(':');
+        m=t[0];
+        s=t[1];
+        if(s.split('.')[1].length!=3){
+          var time = parseInt(m)*60 + parseFloat(s);
+          var content = lrc.split('\n')[i].replace(temp,'');
+          //格式化歌词
+          //content = '<li>' + content + '</li>';
+          timeList.push(time);
+          contentList.push(content);
+        }
+      }
+    }
+    return {
+      'timeList': timeList,
+      'contentList': contentList
+    }
+  };
+  $rootScope.parseLrcInit = function(lrc){
+    timeList = [];
+    contentList = [];
+    parse(lrc);
+    return {
+      'timeList': timeList,
+      'contentList': contentList
+    };
+  };
+  $rootScope.parseLrc = function(lrc,time_now){
+    for(i in lrc.timeList){
+      var lrc_time = lrc.timeList[i];
+      if(lrc_time>time_now){
+        break;
+      }
+    }
+    return i;
+  };
   $(audio).on('timeupdate', function(){
+    //console.log($rootScope.LrcList);
     $scope.currentTime = audio.currentTime;
-    ($rootScope.playLrc(audio.currentTime));
+    var index = $rootScope.parseLrc($rootScope.LrcList, $scope.currentTime);
+    $rootScope.lrcIndex = index -1;
+
   });
+
 
 });
